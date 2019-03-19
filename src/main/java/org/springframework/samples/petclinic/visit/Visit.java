@@ -22,6 +22,10 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.model.BaseEntity;
 
@@ -31,6 +35,13 @@ import org.springframework.samples.petclinic.model.BaseEntity;
  * @author Ken Krebs
  * @author Dave Syer
  */
+
+@Getter
+@Setter
+
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+
 @Entity
 @Table(name = "visits")
 public class Visit extends BaseEntity {

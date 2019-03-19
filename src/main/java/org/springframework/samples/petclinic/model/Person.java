@@ -15,6 +15,11 @@
  */
 package org.springframework.samples.petclinic.model;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotEmpty;
@@ -24,6 +29,12 @@ import javax.validation.constraints.NotEmpty;
  *
  * @author Ken Krebs
  */
+
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+
 @MappedSuperclass
 public class Person extends BaseEntity {
 
@@ -34,21 +45,4 @@ public class Person extends BaseEntity {
     @Column(name = "last_name")
     @NotEmpty
     private String lastName;
-
-    public String getFirstName() {
-        return this.firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return this.lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
 }

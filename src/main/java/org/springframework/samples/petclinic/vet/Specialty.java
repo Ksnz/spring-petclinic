@@ -20,6 +20,10 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.samples.petclinic.model.NamedEntity;
 
 /**
@@ -27,6 +31,12 @@ import org.springframework.samples.petclinic.model.NamedEntity;
  *
  * @author Juergen Hoeller
  */
+
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+
 @Entity
 @Table(name = "specialties")
 public class Specialty extends NamedEntity implements Serializable {

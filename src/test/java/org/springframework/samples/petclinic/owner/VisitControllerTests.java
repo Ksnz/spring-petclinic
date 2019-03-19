@@ -20,6 +20,8 @@ import org.springframework.samples.petclinic.visit.VisitRepository;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Optional;
+
 /**
  * Test class for {@link VisitController}
  *
@@ -42,7 +44,7 @@ public class VisitControllerTests {
 
     @Before
     public void init() {
-        given(this.pets.findById(TEST_PET_ID)).willReturn(new Pet());
+        given(this.pets.findById(TEST_PET_ID)).willReturn(Optional.of(new Pet()));
     }
 
     @Test

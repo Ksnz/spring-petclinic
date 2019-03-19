@@ -61,10 +61,11 @@ class VisitController {
      */
     @ModelAttribute("visit")
     public Visit loadPetWithVisit(@PathVariable("petId") int petId, Map<String, Object> model) {
-        Pet pet = this.pets.findById(petId);
-        model.put("pet", pet);
         Visit visit = new Visit();
-        pet.addVisit(visit);
+        this.pets.findById(petId).ifPresent(pet -> {
+            model.put("pet", pet);
+            pet.addVisit(visit);
+        });
         return visit;
     }
 

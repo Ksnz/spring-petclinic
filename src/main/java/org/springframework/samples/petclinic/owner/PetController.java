@@ -50,7 +50,7 @@ class PetController {
 
     @ModelAttribute("owner")
     public Owner findOwner(@PathVariable("ownerId") int ownerId) {
-        return this.owners.findById(ownerId);
+        return this.owners.findById(ownerId).orElse(null);
     }
 
     @InitBinder("owner")
@@ -73,7 +73,7 @@ class PetController {
 
     @PostMapping("/pets/new")
     public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result, ModelMap model) {
-        if (StringUtils.hasLength(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) != null){
+        if (StringUtils.hasLength(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) != null) {
             result.rejectValue("name", "duplicate", "already exists");
         }
         owner.addPet(pet);
@@ -88,8 +88,7 @@ class PetController {
 
     @GetMapping("/pets/{petId}/edit")
     public String initUpdateForm(@PathVariable("petId") int petId, ModelMap model) {
-        Pet pet = this.pets.findById(petId);
-        model.put("pet", pet);
+        this.pets.findById(petId).ifPresent(pet -> model.put("pet", pet));
         return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
     }
 

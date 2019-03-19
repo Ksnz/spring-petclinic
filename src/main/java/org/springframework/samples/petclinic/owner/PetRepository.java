@@ -15,11 +15,11 @@
  */
 package org.springframework.samples.petclinic.owner;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Repository class for <code>Pet</code> domain objects All method names are compliant with Spring Data naming
@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Sam Brannen
  * @author Michael Isvy
  */
-public interface PetRepository extends Repository<Pet, Integer> {
+public interface PetRepository extends PagingAndSortingRepository<Pet, Integer> {
 
     /**
      * Retrieve all {@link PetType}s from the data store.
@@ -39,20 +39,5 @@ public interface PetRepository extends Repository<Pet, Integer> {
     @Query("SELECT ptype FROM PetType ptype ORDER BY ptype.name")
     @Transactional(readOnly = true)
     List<PetType> findPetTypes();
-
-    /**
-     * Retrieve a {@link Pet} from the data store by id.
-     * @param id the id to search for
-     * @return the {@link Pet} if found
-     */
-    @Transactional(readOnly = true)
-    Pet findById(Integer id);
-
-    /**
-     * Save a {@link Pet} to the data store, either inserting or updating it.
-     * @param pet the {@link Pet} to save
-     */
-    void save(Pet pet);
-
 }
 

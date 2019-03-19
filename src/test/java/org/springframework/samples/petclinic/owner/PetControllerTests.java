@@ -26,6 +26,8 @@ import org.springframework.samples.petclinic.owner.PetTypeFormatter;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Optional;
+
 /**
  * Test class for the {@link PetController}
  *
@@ -57,8 +59,8 @@ public class PetControllerTests {
         cat.setId(3);
         cat.setName("hamster");
         given(this.pets.findPetTypes()).willReturn(Lists.newArrayList(cat));
-        given(this.owners.findById(TEST_OWNER_ID)).willReturn(new Owner());
-        given(this.pets.findById(TEST_PET_ID)).willReturn(new Pet());
+        given(this.owners.findById(TEST_OWNER_ID)).willReturn(Optional.of(new Owner()));
+        given(this.pets.findById(TEST_PET_ID)).willReturn(Optional.of(new Pet()));
 
     }
 

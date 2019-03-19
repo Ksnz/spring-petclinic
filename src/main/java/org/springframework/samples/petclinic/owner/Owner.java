@@ -21,7 +21,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
-import org.springframework.core.style.ToStringCreator;
 import org.springframework.samples.petclinic.model.Person;
 
 import javax.persistence.*;

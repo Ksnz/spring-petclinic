@@ -15,17 +15,28 @@
  */
 package org.springframework.samples.petclinic.owner;
 
+import lombok.EqualsAndHashCode;
+import org.springframework.samples.petclinic.model.NamedEntity;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.springframework.samples.petclinic.model.NamedEntity;
-
 /**
  * @author Juergen Hoeller
- *         Can be Cat, Dog, Hamster...
+ * Can be Cat, Dog, Hamster...
  */
+
+@EqualsAndHashCode(callSuper = true)
+
 @Entity
 @Table(name = "types")
 public class PetType extends NamedEntity {
 
+
+    /**
+     * @return name of PetType
+     */
+    public String toString() {
+        return getName();
+    }
 }

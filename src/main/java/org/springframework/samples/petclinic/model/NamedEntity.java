@@ -15,10 +15,7 @@
  */
 package org.springframework.samples.petclinic.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -41,5 +38,6 @@ import javax.persistence.MappedSuperclass;
 public class NamedEntity extends BaseEntity {
 
     @Column(name = "name")
+    @NonNull
     private String name;
 }

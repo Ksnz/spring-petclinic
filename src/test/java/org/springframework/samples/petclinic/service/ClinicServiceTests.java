@@ -21,6 +21,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.owner.*;
 import org.springframework.samples.petclinic.vet.Vet;
 import org.springframework.samples.petclinic.vet.VetRepository;
@@ -74,10 +76,10 @@ public class ClinicServiceTests {
 
     @Test
     public void shouldFindOwnersByLastName() {
-        Collection<Owner> owners = this.owners.findByLastName("Davis");
+        Collection<Owner> owners = this.owners.findByLastName("Davis", PageRequest.of(0, 20)).getContent();
         assertThat(owners.size()).isEqualTo(2);
 
-        owners = this.owners.findByLastName("Daviss");
+        owners = this.owners.findByLastName("Daviss", Pageable.unpaged()).getContent();
         assertThat(owners.isEmpty()).isTrue();
     }
 
@@ -93,7 +95,7 @@ public class ClinicServiceTests {
     @Test
     @Transactional
     public void shouldInsertOwner() {
-        Collection<Owner> owners = this.owners.findByLastName("Schultz");
+        Collection<Owner> owners = this.owners.findByLastName("Schultz", PageRequest.of(0, 20)).getContent();
         int found = owners.size();
 
         Owner owner = new Owner();
@@ -105,7 +107,7 @@ public class ClinicServiceTests {
         this.owners.save(owner);
         assertThat(owner.getId().longValue()).isNotEqualTo(0);
 
-        owners = this.owners.findByLastName("Schultz");
+        owners = this.owners.findByLastName("Schultz", PageRequest.of(0, 20)).getContent();
         assertThat(owners.size()).isEqualTo(found + 1);
     }
 

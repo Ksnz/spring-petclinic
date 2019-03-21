@@ -15,6 +15,8 @@
  */
 package org.springframework.samples.petclinic.owner;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,8 +28,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * @author Juergen Hoeller
@@ -75,26 +79,30 @@ class OwnerController {
     }
 
     @GetMapping("/owners")
-    public String processFindForm(Owner owner, BindingResult result, Map<String, Object> model) {
+    public String processFindForm(Owner owner, BindingResult result, Pageable pageable, Map<String, Object> model) {
 
         // allow parameterless GET request for /owners to return all records
         if (owner.getLastName() == null) {
             owner.setLastName(""); // empty string signifies broadest possible search
         }
 
-        // find owners by last name
-        Collection<Owner> results = this.owners.findByLastName(owner.getLastName());
-        if (results.isEmpty()) {
+        Page<Owner> results = this.owners.findByLastNameStartingWith(owner.getLastName(), pageable);
+        if (results == null || results.isEmpty()) {
             // no owners found
             result.rejectValue("lastName", "notFound", "not found");
             return "owners/findOwners";
-        } else if (results.size() == 1) {
+        } else if (results.getTotalElements() == 1) {
             // 1 owner found
             owner = results.iterator().next();
             return "redirect:/owners/" + owner.getId();
         } else {
             // multiple owners found
-            model.put("selections", results);
+            model.put("selections", results.getContent());
+            int totalPages = results.getTotalPages();
+            if (totalPages > 0) {
+                List<String> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().map(Object::toString).collect(Collectors.toList());
+                model.put("pageNumbers", pageNumbers);
+            }
             return "owners/ownersList";
         }
     }

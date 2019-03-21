@@ -30,7 +30,6 @@ import java.util.List;
  */
 public interface VisitRepository extends PagingAndSortingRepository<Visit, Integer> {
 
-
     List<Visit> findByPetId(Integer petId);
 
 }

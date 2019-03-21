@@ -96,7 +96,7 @@ public class OwnerControllerTests {
 
     @Test
     public void testProcessFindFormSuccess() throws Exception {
-        given(this.owners.findByLastNameStartingWith("", PageRequest.of(0, 20))).willReturn(new PageImpl<>(Lists.newArrayList(george, new Owner())));
+        given(this.owners.findByLastNameStartingWith("", PageRequest.of(0, 5))).willReturn(new PageImpl<>(Lists.newArrayList(george, new Owner())));
         mockMvc.perform(get("/owners"))
             .andExpect(status().isOk())
             .andExpect(view().name("owners/ownersList"));
@@ -104,7 +104,7 @@ public class OwnerControllerTests {
 
     @Test
     public void testProcessFindFormByLastName() throws Exception {
-        given(this.owners.findByLastNameStartingWith(george.getLastName(), PageRequest.of(0, 20))).willReturn(new PageImpl<>(Lists.newArrayList(george)));
+        given(this.owners.findByLastNameStartingWith(george.getLastName(), PageRequest.of(0, 5))).willReturn(new PageImpl<>(Lists.newArrayList(george)));
         mockMvc.perform(get("/owners")
             .param("lastName", "Franklin")
         )

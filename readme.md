@@ -1,4 +1,13 @@
-# Spring PetClinic Sample Application [![Build Status](https://travis-ci.org/spring-projects/spring-petclinic.png?branch=master)](https://travis-ci.org/spring-projects/spring-petclinic/)
+# Форк Spring PetClinic Sample Application
+
+## С добавлениями и изменениями
+
+### Изменено
+* Добавил lombok.
+* Сузил репозитории до JpaRepository и PagingAndSortingRepository
+* Удалены лишние CRUD методы
+* Добавлена поддержка страниц, thymeleaf фрагмент для страниц
+* Немного поменял расположение кнопки добавления нового Owner'a
 
 ## Understanding the Spring Petclinic application with a few diagrams
 <a href="https://speakerdeck.com/michaelisvy/spring-petclinic-sample-application">See the presentation here</a>

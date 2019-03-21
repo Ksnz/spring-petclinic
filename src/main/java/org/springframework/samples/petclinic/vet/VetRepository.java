@@ -20,6 +20,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -33,7 +34,7 @@ import java.util.List;
  * @author Sam Brannen
  * @author Michael Isvy
  */
-public interface VetRepository extends JpaRepository<Vet, Integer> {
+public interface VetRepository extends PagingAndSortingRepository<Vet, Integer> {
 
 //    /**
 //     * Retrieve all <code>Vet</code>s from the data store.

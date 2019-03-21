@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+<div th:fragment="pagination(page, mapping, buttonPages)">
+    <div class="dataTables_paginate paging_simple_numbers">
+        <ul class="pagination">
+            <li class="paginate_button previous"
+                th:classappend="${page.hasPrevious()} ? '' : 'disabled'">
+                <a th:if="${page.hasPrevious()}" th:href="@{${mapping}(page=${page.getNumber()})}">Previous</a>
+                <a th:if="${!page.hasPrevious()}">Previous</a>
+            </li>
+
+            <li class="paginate_button"
+                th:if="${pageNumber > -1 && pageNumber < page.getTotalPages()}"
+                th:classappend="${pageNumber == page.getNumber()} ? 'active' : ''"
+                th:each="pageNumber : ${#numbers.sequence(page.getNumber()-buttonPages, page.getNumber()+buttonPages)}">
+                <a th:href="@{${mapping}(page=${pageNumber}+1)}">[[${pageNumber}+1]]</a>
+            </li>
+
+            <li class="paginate_button next"
+                th:classappend="${page.hasNext()} ? '' : 'disabled'">
+                <a th:if="${page.hasNext()}" th:href="@{${mapping}(page=${page.getNumber()+2})}">Next</a>
+                <a th:if="${!page.hasNext()}">Next</a>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

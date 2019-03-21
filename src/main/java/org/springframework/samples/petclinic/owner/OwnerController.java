@@ -28,10 +28,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * @author Juergen Hoeller
@@ -86,23 +83,24 @@ class OwnerController {
             owner.setLastName(""); // empty string signifies broadest possible search
         }
 
-        Page<Owner> results = this.owners.findByLastNameStartingWith(owner.getLastName(), pageable);
-        if (results == null || results.isEmpty()) {
+        Page<Owner> page = this.owners.findByLastNameStartingWith(owner.getLastName(), pageable);
+        //page == null only in mock test case
+        if (page == null || page.isEmpty()) {
             // no owners found
             result.rejectValue("lastName", "notFound", "not found");
             return "owners/findOwners";
-        } else if (results.getTotalElements() == 1) {
+        } else if (page.getTotalElements() == 1) {
             // 1 owner found
-            owner = results.iterator().next();
+            owner = page.iterator().next();
             return "redirect:/owners/" + owner.getId();
         } else {
             // multiple owners found
-            model.put("selections", results.getContent());
-            int totalPages = results.getTotalPages();
-            if (totalPages > 0) {
-                List<String> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().map(Object::toString).collect(Collectors.toList());
-                model.put("pageNumbers", pageNumbers);
-            }
+            model.put("ownersPage", page);
+//            int totalPages = page.getTotalPages();
+//            if (totalPages > 0) {
+//                List<String> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().map(Object::toString).collect(Collectors.toList());
+//                model.put("pageNumbers", pageNumbers);
+//            }
             return "owners/ownersList";
         }
     }

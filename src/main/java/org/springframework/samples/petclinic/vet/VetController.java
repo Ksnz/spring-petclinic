@@ -15,6 +15,8 @@
  */
 package org.springframework.samples.petclinic.vet;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,23 +38,23 @@ class VetController {
         this.vets = clinicService;
     }
 
-    @GetMapping("/vets.html")
-    public String showVetList(Map<String, Object> model) {
+    @GetMapping("/vets")
+    public String showVetList(Map<String, Object> model, Pageable pageable) {
         // Here we are returning an object of type 'Vets' rather than a collection of Vet
         // objects so it is simpler for Object-Xml mapping
-        Vets vets = new Vets();
-        vets.getVetList().addAll(this.vets.findAll());
-        model.put("vets", vets);
+        Page<Vet> page = this.vets.findAll(pageable);
+        model.put("vetsPage", page);
         return "vets/vetList";
     }
 
-    @GetMapping({ "/vets" })
-    public @ResponseBody Vets showResourcesVetList() {
-        // Here we are returning an object of type 'Vets' rather than a collection of Vet
-        // objects so it is simpler for JSon/Object mapping
-        Vets vets = new Vets();
-        vets.getVetList().addAll(this.vets.findAll());
-        return vets;
-    }
+//    @GetMapping({"/vets"})
+//    public @ResponseBody
+//    Vets showResourcesVetList() {
+//        // Here we are returning an object of type 'Vets' rather than a collection of Vet
+//        // objects so it is simpler for JSon/Object mapping
+//        Vets vets = new Vets();
+//        vets.getVetList().addAll(this.vets.findAll());
+//        return vets;
+//    }
 
 }

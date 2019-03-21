@@ -6,6 +6,7 @@
 
 <h2>Owners</h2>
 
+<div th:insert="~{fragments/paginator :: pagination(${ownersPage},  ${'/owners'}, ${10})}"></div>
 <table id="vets" class="table table-striped">
     <thead>
     <tr>
@@ -17,7 +18,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="owner : ${selections}">
+    <tr th:each="owner : ${ownersPage.getContent()}">
         <td>
             <a th:href="@{/owners/__${owner.id}__}" th:text="${owner.firstName + ' ' + owner.lastName}"/></a>
         </td>
@@ -27,30 +28,10 @@
         <td><span th:each="pet : ${owner.pets}" th:text="${pet.name} "/></td>
     </tr>
     </tbody>
-    <!--<nav aria-label="Pagination">-->
-    <!--<ul class="pagination justify-content-center">-->
-    <!--<li class="page-item" th:each="pageNumber : ${pageNumbers}">-->
-    <!--<a class="page-link" th:href="@{/owners(lastName=${lastName},page=${pageNumber})}"-->
-    <!--th:text=${pageNumber}>1</a>-->
-    <!--</li>-->
-    <!--</ul>-->
-    <!--</nav>-->
-    <div class="table-pagination">
-        <ul class="pagination">
-            <li th:each="pageNumber : ${pageNumbers}"
-                th:with="curentPage=${param.page}"
-                th:class="${curentPage eq pageNumber} ? 'active' : ''">
-                <a th:if="${curentPage eq pageNumber}" href="javascript:void(0);">
-                    <span th:text="${pageNumber}"></span>
-                </a>
-                <a th:if="${not (curentPage eq pageNumber)}"
-                   th:href="@{${'/owners'}(lastName=${param.lastName},page=${pageNumber})}">
-                    <span th:text="${pageNumber}"></span>
-                </a>
-            </li>
-        </ul>
-    </div>
 </table>
+
+<br />
+<a class="btn btn-default" th:href="@{/owners/new}">Add Owner</a>
 
 </body>
 </html>

@@ -1,0 +1,12 @@
+GET http://localhost:8080/{GET%20/vets}
+
+###
+
+GET http://localhost:8080/{GET%20/vets}
+
+###
+
+GET http://localhost:8080/{GET%20/vets.html}
+
+###
+
